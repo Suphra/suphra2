@@ -2,21 +2,35 @@
 // C 2016 Amir Sadeghian (root25.com)
 class AjaxFunc{
         public function steer($dir,$delay="0"){
-		if($dir=="left"){ $dir="24"; }else{ $dir="25"; }
-                shell_exec("gpio -g mode ".$dir." out");
-                shell_exec("gpio -g write ".$dir." 1");
-		sleep($delay);
-                shell_exec("gpio -g write ".$dir." 0");
-                shell_exec("sudo python cleanup.ph");
+			if($dir=="left"){ $dir="24"; }else{ $dir="25"; }
+			if($delay!="0"){
+				shell_exec("gpio -g mode ".$dir." out");
+				shell_exec("gpio -g write ".$dir." 1");
+				sleep($delay);
+				shell_exec("gpio -g write ".$dir." 0");
+				shell_exec("sudo python cleanup.ph");	
+			}else{
+				while(1){
+					shell_exec("gpio -g mode ".$dir." out");
+					shell_exec("gpio -g write ".$dir." 1");
+				}
+			}
         }
 
 	public function drive($dir,$delay="0"){
 		if($dir=="backward"){ $dir="18"; }else{ $dir="23"; }
+		if($delay!="0"){
                 shell_exec("gpio -g mode ".$dir." out");
                 shell_exec("gpio -g write ".$dir." 1");
                 sleep($delay);
                 shell_exec("gpio -g write ".$dir." 0");
                 shell_exec("sudo python cleanup.ph");
+			}else{
+				while(1){
+					shell_exec("gpio -g mode ".$dir." out");
+					shell_exec("gpio -g write ".$dir." 1");
+				}
+			}
 	}
 	
 	public function stop(){		
